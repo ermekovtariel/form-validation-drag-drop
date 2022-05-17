@@ -7,7 +7,7 @@ form {
   display: grid;
   align-content: center;
   justify-content: center;
-  grid-gap: 1rem;
+  grid-gap: 0 1rem;
   grid-template-columns: auto auto;
   .container_1 {
     height: 100vh;
@@ -24,6 +24,10 @@ form {
     padding: 50px 8px;
     border-radius: 8px;
     background: #00000030;
+
+    place-items: flex-start;
+    overflow-y: scroll;
+    height: 72vh;
     div {
       width: 100%;
       grid-gap: 1rem;

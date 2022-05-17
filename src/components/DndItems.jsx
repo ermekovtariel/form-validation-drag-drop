@@ -1,34 +1,34 @@
-import { Button, Card, CardActions } from '@mui/material';
 import React, { useState } from 'react';
+import { Button, Card, CardActions, TextField } from '@mui/material';
+import { dragEndHandler, dragOverHandler } from '../configs';
+import './DndItems.scss';
 
-function DndItems({ data, setDndData, remove }) {
+function DndItems({ data, setDndData, remove, setDropData, register, errors }) {
   const [currentCardState, setCurrentCard] = useState({});
 
   function dragStartHandler(e, card) {
-    console.log('start', card);
     setCurrentCard(card);
+
+    setDropData({
+      id: card.id,
+      title: card.title,
+    });
   }
-  function dragEndHandler(e) {
-    e.target.style.background = '#fff';
-  }
-  function dragOverHandler(e) {
-    e.preventDefault();
-    e.target.style.background = 'lightgray';
-  }
+
   function dragDropHandler(e, carrentCard) {
     e.preventDefault();
-    console.log('drop', carrentCard);
+
     setDndData(
       data.map((card) => {
         if (card.id === carrentCard.id) {
           return {
             ...card,
             id: currentCardState.id,
-            name: currentCardState.name,
+            title: currentCardState.title,
           };
         }
         if (card.id === currentCardState.id) {
-          return { ...card, id: carrentCard.id, name: carrentCard.name };
+          return { ...card, id: carrentCard.id, title: carrentCard.title };
         }
 
         return card;
@@ -38,21 +38,35 @@ function DndItems({ data, setDndData, remove }) {
   }
 
   return (
-    <div>
+    <div className='dnd_items_box'>
       {data[0] !== undefined &&
         data.map((item, idx) => (
           <Card
+            className='dnd_item'
             draggable
             onDragStart={(e) => dragStartHandler(e, item)}
-            onDragLeave={(e) => dragEndHandler(e)}
-            onDragEnd={(e) => dragEndHandler(e)}
-            onDragOver={(e) => dragOverHandler(e)}
+            onDragLeave={dragEndHandler}
+            onDragEnd={dragEndHandler}
+            onDragOver={dragOverHandler}
             onDrop={(e) => dragDropHandler(e, item)}
             key={`${item}_${idx}`}
           >
-            <div>{item?.name}</div>
+            <div>
+              <TextField
+                error={errors[`${item.title}_${idx}`]}
+                label={`${item.title}`}
+                {...register(`${item.title}_${idx}`, {
+                  required: true,
+                })}
+                defaultValue=''
+                variant='standard'
+              />
+            </div>
             <CardActions>
-              <Button size='small' onClick={() => remove(idx)}>
+              <Button
+                size='small'
+                onClick={() => remove(idx, data, setDndData)}
+              >
                 delete
               </Button>
             </CardActions>

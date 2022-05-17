@@ -1,12 +1,18 @@
-import { TextField } from '@mui/material';
 import React from 'react';
+import { TextField } from '@mui/material';
 
-function Email({ errors, register }) {
+function Email({ errors, register, value, setValue }) {
+  const handleChange = (e) => {
+    setValue({ ...value, email: e.target.value });
+  };
   return (
     <>
       <TextField
         error={errors.email}
         label='Email'
+        value={value.email}
+        onChangeCapture={handleChange}
+        defaultValue=''
         {...register('email', {
           required: true,
           pattern: {

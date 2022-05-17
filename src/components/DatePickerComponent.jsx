@@ -11,7 +11,7 @@ function DatePickerComponent({ value, setValue }) {
           views={['day']}
           label='ToDay'
           value={value}
-          minDate={new Date('2022-05-16')}
+          minDate={new Date('2022-05-17')}
           onChange={(newValue) => {
             setValue(newValue);
           }}

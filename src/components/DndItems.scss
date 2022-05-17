@@ -1,0 +1,8 @@
+.dnd_items_box {
+  padding: 0.5rem 1rem;
+  display: grid;
+  grid-gap: 1rem;
+  .dnd_item {
+    cursor: grab;
+  }
+}

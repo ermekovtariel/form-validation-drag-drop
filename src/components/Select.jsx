@@ -2,12 +2,18 @@ import React from 'react';
 import { Box, FormControl, InputLabel, NativeSelect } from '@mui/material';
 import './Select.scss';
 
-function Select({ errors, register }) {
+function Select({ errors, register, setValue, value }) {
+  const handleChange = (e) => {
+    setValue({ ...value, select: e.target.value });
+  };
+
   return (
     <>
       <Box sx={{ minWidth: 120 }}>
         <FormControl
           fullWidth
+          value={value.select}
+          onChangeCapture={handleChange}
           error={errors.age}
           {...register('age', { required: true })}
         >
